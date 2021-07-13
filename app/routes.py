@@ -1,10 +1,10 @@
 from app import app
 from flask import render_template
+from app import db
+from app.model import Measurement
 
-asd = [{"temperatura": 40},
-         {"temperatura": 20},
-         {"temperatura": 36}]
 
 @app.route("/")
 def hello_world():
-    return render_template("base.html",lista=asd)
+    objects = db.session.query(Measurement).all()
+    return render_template("base.html", lista=objects)

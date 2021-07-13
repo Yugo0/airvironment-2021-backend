@@ -6,10 +6,12 @@
 
 </head>
 
-<body style="background-color:green">
+<body style="background-color:lightblue">
 
-{% for temp in lista%}
-    Temperatura je {{temp.temperatura}}
+{% for obj in lista%}
+    Temperatura je {{obj.temperature}},
+    Vlaznost je {{obj.humidity}},
+    Zagadjenje je {{obj.pollution}}
 <br>
 {% endfor %}
 </body>
