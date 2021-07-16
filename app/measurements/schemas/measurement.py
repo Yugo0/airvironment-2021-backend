@@ -61,21 +61,13 @@ class MeasurementPatchSchema(Schema):
 class MeasurementMetaSchema(Schema):
     page = fields.Integer(required=False, default=PAGE, missing=PAGE)
     per_page = fields.Integer(required=False, default=PER_PAGE, missing=PER_PAGE)
-    total = fields.Integer(required=0, default=0, missing=0)
+    total = fields.Integer(required=False, default=0, missing=0)
 
 
 class MeasurementPaginationSchema(Schema):
     meta = fields.Method("get_meta")
-    results = fields.Method("get_results")
+    items = fields.List(fields.Nested(MeasurementResponseSchema()), data_key="response")
 
     @staticmethod
     def get_meta(data):
-        response = dict()
-        response["total"] = data.total
-        response["page"] = data.page
-        response["per_page"] = data.per_page
-        return MeasurementMetaSchema().dump(response)
-
-    @staticmethod
-    def get_results(data):
-        return MeasurementResponseSchema(many=True).dump(data.items)
+        return MeasurementMetaSchema().dump(data)

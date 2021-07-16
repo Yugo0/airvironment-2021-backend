@@ -19,18 +19,6 @@ def get_all():
     measurements = db.session.query(Measurement).paginate(page=schema_load.get("page"),
                                                           per_page=schema_load.get("par_page"))
 
-    # response = {"meta": {"total": measurements.total,
-    #                      "page": measurements.page,
-    #                      "per_page": measurements.per_page},
-    #             "results": []}
-    #
-    # for measurement in measurements.items:
-    #     data = {"id": measurement.id,
-    #             "temperature": measurement.temperature,
-    #             "pollution": measurement.pollution,
-    #             "humidity": measurement.humidity}
-    #     response['results'].append(data)
-    # return json.dumps(response)
     return measurement_pagination_schema.dump(measurements)
 
 
