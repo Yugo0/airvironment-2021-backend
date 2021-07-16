@@ -1,6 +1,6 @@
 from app import db
-from app.measurements import measurements_bp
-from app.measurements.models import Measurement
+from app.measurements import measurement_bp
+from app.measurements.model import Measurement
 from flask import request
 from werkzeug.exceptions import NotFound
 from app.measurements.schemas import MeasurementResponseSchema, MeasurementRequestSchema, MeasurementPatchSchema, \
@@ -12,7 +12,7 @@ measurement_meta_schema = MeasurementMetaSchema()
 measurement_pagination_schema = MeasurementPaginationSchema()
 
 
-@measurements_bp.get('')
+@measurement_bp.get('')
 def get_all():
     schema_load = measurement_meta_schema.load(request.args.to_dict())
 
@@ -34,7 +34,7 @@ def get_all():
     return measurement_pagination_schema.dump(measurements)
 
 
-@measurements_bp.get('/<int:id>')
+@measurement_bp.get('/<int:id>')
 def get_id(id):
     measurement = db.session.query(Measurement).filter(Measurement.id == id).one_or_none()
 
@@ -44,7 +44,7 @@ def get_id(id):
     return measurement_response_schema.dump(measurement)
 
 
-@measurements_bp.get('/latest')
+@measurement_bp.get('/latest')
 def get_latest():
     measurement = db.session.query(Measurement).order_by(Measurement.created.desc()).first()
 
@@ -54,7 +54,7 @@ def get_latest():
     return measurement_response_schema.dump(measurement)
 
 
-@measurements_bp.post('')
+@measurement_bp.post('')
 def post():
     measurement_request = MeasurementRequestSchema()
 
@@ -68,7 +68,7 @@ def post():
     return measurement_response_schema.dump(measurement)
 
 
-@measurements_bp.patch('/<int:id>')
+@measurement_bp.patch('/<int:id>')
 def patch_id(id):
     measurement = db.session.query(Measurement).filter(Measurement.id == id).one_or_none()
 

@@ -9,5 +9,8 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-from app import routes, model
+from app import app
+from app.measurements import measurement_bp
+
+app.register_blueprint(measurement_bp)
 
